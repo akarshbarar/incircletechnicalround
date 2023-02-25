@@ -1,24 +1,22 @@
 {
-    "compilerOptions": {
-      "target": "es5",
-      "module": "commonjs",
-      "lib": ["es6"],
-      "checkJs": false,
-      "allowJs": true,
-      "outDir": "build",
-      "rootDir": "src",
-      "strict": false,
-      "esModuleInterop": true,
-      "types": ["node"]
-    },
-    "include": ["src/**/*"],
-    "exclude": ["src/**/*.spec.ts"],
-    "linterOptions": {
-     "exclude": ["src/**","components/**"],
-    },
-    "paths": {
-      "@utils/*": [
-        "src/utils/*"
-      ],
-    }
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": ["es6"],
+    "checkJs": false,
+    "allowJs": true,
+    "outDir": "build",
+    "rootDir": "src",
+    "strict": false,
+    "esModuleInterop": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.spec.ts"],
+  "linterOptions": {
+    "exclude": ["src/**", "components/**"]
+  },
+  "paths": {
+    "@utils/*": ["src/utils/*"]
   }
+}
