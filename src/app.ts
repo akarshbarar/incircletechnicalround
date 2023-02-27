@@ -1,11 +1,18 @@
 import express, { Request, Response } from "express";
 import helmet from "helmet";
-import { errorHandler, notFound } from "./middleware";
-import morganMiddleware from "./middleware/morgon.middleware";
 import cors from "cors";
 import bodyParser from "body-parser";
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
+import { errorHandler, notFound } from "./middleware";
+import morganMiddleware from "./middleware/morgon.middleware";
+import api from './api';
+import connectToDb from "./controller/db";
+
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
 const app = express();
 //! Configuration for Swagger Docs
 const options = {
@@ -26,9 +33,10 @@ const options = {
 };
 const specs = swaggerJSDoc(options);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-
+// ! CONNECT TO DB
+connectToDb();
+// ! For CORS Add list of Whitelist URL
 const whitelist = [undefined];
-
 const corsOptionsDelegate = function (req: any, callback: any) {
   let corsOptions;
   if (whitelist.indexOf(req.header("Origin")) !== -1) {
@@ -39,7 +47,6 @@ const corsOptionsDelegate = function (req: any, callback: any) {
   callback(null, corsOptions); // callback expects two parameters: error and options
 };
 app.use(cors(corsOptionsDelegate));
-
 app.use(morganMiddleware);
 app.use(helmet());
 app.use(express.json());
@@ -57,7 +64,7 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-// app.use("/api/v1", api);
+app.use("/api/v1", api);
 
 app.use(notFound);
 app.use(errorHandler);
